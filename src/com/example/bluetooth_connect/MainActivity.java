@@ -117,7 +117,7 @@ public class MainActivity extends Activity {
 										    mBluetoothAdapter.cancelDiscovery();
 										}
 										
-										System.out.println(" start>>" + mBluetoothAdapter.startDiscovery()) ; 
+										System.out.println(mBluetoothAdapter.startDiscovery()) ; 
 									}
 								}
 							});
