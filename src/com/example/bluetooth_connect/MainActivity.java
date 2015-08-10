@@ -5,6 +5,7 @@ import java.util.Set;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -12,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +26,8 @@ public class MainActivity extends Activity {
 	private Button pairup ;
 	BluetoothAdapter mBluetoothAdapter = null ; 
 	Set<BluetoothDevice> devicesArray = null ;
-	ArrayList<String> pairdevice = new ArrayList();
+	ArrayList<String> pairdevice = null ;
+	ArrayList<String> newDevices = null ;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,8 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				
 				Toast.makeText(getApplicationContext(), ">>Clicked ", Toast.LENGTH_LONG).show() ;
-				
+				pairdevice = new ArrayList() ;
+				newDevices = new ArrayList() ;
 				
 				mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 				if (mBluetoothAdapter == null) {
@@ -89,8 +93,8 @@ public class MainActivity extends Activity {
 
 								@Override
 								public void onClick(DialogInterface dialog,int which) {
-									System.out.println(mBluetoothAdapter.startDiscovery()) ;
-									if (which != devicesArray.size() -1)
+									
+									if (which != devicesArray.size())
 									{
 									
 										System.out.println("which >> " + which) ; 
@@ -112,12 +116,14 @@ public class MainActivity extends Activity {
 									}
 									else
 									{
-										System.out.println ("Pairup new devices") ; 
+										System.out.println ("check Pairup new devices") ; 
 										if (mBluetoothAdapter.isDiscovering()) {
 										    mBluetoothAdapter.cancelDiscovery();
 										}
 										
 										System.out.println(mBluetoothAdapter.startDiscovery()) ; 
+										
+										new AsyncData().execute() ; 
 									}
 								}
 							});
@@ -138,6 +144,7 @@ public class MainActivity extends Activity {
 		            // Add the name and address to an array adapter to show in a ListView
 		            //mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 		            System.out.println( "Device Name >> " + device.getName()) ;
+		            newDevices.add(device.getName() + "\n" + device.getAddress());
 		        }
 		    }
 		};
@@ -170,6 +177,41 @@ public class MainActivity extends Activity {
 		}
 	}
 	
-	
+	class AsyncData extends AsyncTask<Void, Void, Void>{
+		ProgressDialog progressDialog;
+	    @Override
+	    protected void onPreExecute() {
+	        super.onPreExecute();
+	        
+	        progressDialog= ProgressDialog.show(MainActivity.this, "Progress Dialog Title Text","Process Description Text", true);
+	        // init progressdialog
+	    }
+
+
+	    @Override
+	    protected Void doInBackground(Void... arg0) {
+	        // get data
+	    	try {
+				Thread.sleep(12000) ;
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
+	        return null;
+	    }
+
+
+	    @Override
+	    protected void onPostExecute(Void result) {
+	        super.onPostExecute(result);
+	        
+	        progressDialog.dismiss();
+	        
+	        System.out.println(newDevices.size()) ;
+	        
+	        // dismiss dialog
+	    }
+	}
 
 }

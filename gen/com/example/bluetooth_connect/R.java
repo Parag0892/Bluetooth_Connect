@@ -2103,7 +2103,8 @@ containing a value of this type.
         public static final int support_simple_spinner_dropdown_item=0x7f030025;
     }
     public static final class menu {
-        public static final int main=0x7f0c0000;
+        public static final int fb__share=0x7f0c0000;
+        public static final int main=0x7f0c0001;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -2175,6 +2176,7 @@ containing a value of this type.
          [CHAR LIMIT=4] 
          */
         public static final int status_bar_notification_info_overflow=0x7f0a0011;
+        public static final int title_activity_fb__share=0x7f0a0015;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f0b0040;
